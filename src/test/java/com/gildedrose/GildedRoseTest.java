@@ -11,19 +11,18 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 class GildedRoseTest {
     @ParameterizedTest(name = "updateQuality_normalItem_decrementsBy1Always_startingSellInIs{0}_updatedSellInIs{1}")
-    @MethodSource
-    void updateQuality_normalItem_sellInAlwaysDecrementsBy1(int sellIn, int expected) {
-        Item[] items = new Item[] { new Item("normal item", sellIn, 10)};
+    @MethodSource("updateQuality_normalItem_sellInAlwaysDecrementsBy1_argsOf_startingSellIn_endingSellIn")
+    void updateQuality_normalItem_sellInAlwaysDecrementsBy1(int startingSellIn, int endingSellIn) {
+        Item[] items = new Item[] { new Item("normal item", startingSellIn, 10)};
         GildedRose app = new GildedRose(items);
         app.updateQuality();
-        assertThat(app.items[0].sellIn).isEqualTo(expected);
+        assertThat(app.items[0].sellIn).isEqualTo(endingSellIn);
     }
-    private static Stream<Arguments> updateQuality_normalItem_sellInAlwaysDecrementsBy1() {
-        return Stream.of(
-                Arguments.of(1, 0), // not expired
-                Arguments.of(0, -1), // expires today
-                Arguments.of(-1, -2) // expired
-        );
+    private static Stream<Arguments> updateQuality_normalItem_sellInAlwaysDecrementsBy1_argsOf_startingSellIn_endingSellIn() {
+        Arguments notExpired = Arguments.of(1, 0);
+        Arguments expiresToday = Arguments.of(0, -1);
+        Arguments expired = Arguments.of(-1, -2);
+        return Stream.of(notExpired, expiresToday, expired);
     }
     @Test
     void updateQuality_normalItem_qualityDecrementsBy1_whenSellInIsPositive() {
