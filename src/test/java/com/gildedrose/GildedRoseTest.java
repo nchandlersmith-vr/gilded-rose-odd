@@ -10,7 +10,7 @@ import java.util.stream.Stream;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 class GildedRoseTest {
-    @ParameterizedTest(name = "updateQuality_normalItem_decrementsBy1Always_startingSellIn_{0}_updatedSellIn_{1}")
+    @ParameterizedTest(name = "startingSellIn = {0} | updatedSellIn = {1}")
     @MethodSource
     void updateQuality_normalItem_sellInAlwaysDecrementsBy1(int startingSellIn, int endingSellIn) {
         Item[] items = new Item[] { new Item("normal item", startingSellIn, 10)};
@@ -24,7 +24,7 @@ class GildedRoseTest {
         Arguments expired = Arguments.of(-1, -2);
         return Stream.of(notExpired, expiresToday, expired);
     }
-    @ParameterizedTest(name = "updateQuality_normalItem_qualityDegrades_sellIn_{0}_startingQuality_{1}_endingQuality_{2}")
+    @ParameterizedTest(name = "sellIn = {0} | startingQuality = {1} | endingQuality = {2}")
     @MethodSource
     void updateQuality_normalItem_qualityDegrades(int sellIn, int startingQuality, int endingQuality) {
         Item[] items = new Item[] { new Item("normal item", sellIn, startingQuality)};
@@ -38,7 +38,7 @@ class GildedRoseTest {
         Arguments expiredLoses2QualityPoints = Arguments.of(-1, 2 , 0);
         return Stream.of(notExpiredLoses1QualityPoint, expiresTodayLoses1QualityPoint, expiredLoses2QualityPoints);
     }
-    @ParameterizedTest
+    @ParameterizedTest(name = "sellIn = {0}")
     @ValueSource(ints = {1, 0, -1}) // not expired, expires today, expired
     void updateQuality_normalItem_qualityCannotBeNegative(int sellIn) {
         Item[] items = new Item[] { new Item("normal item", sellIn, 0)};
