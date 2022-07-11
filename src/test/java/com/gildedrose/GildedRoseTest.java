@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
+import org.junit.jupiter.params.provider.ValueSource;
 
 import java.util.stream.Stream;
 
@@ -39,23 +40,10 @@ class GildedRoseTest {
         Arguments expiredLoses2QualityPoints = Arguments.of(-1, 2 , 0);
         return Stream.of(notExpiredLoses1QualityPoint, expiresTodayLoses1QualityPoint, expiredLoses2QualityPoints);
     }
-    @Test
-    void updateQuality_normalItem_qualityCannotBeLessThanZero_whenSellInIsPositive() {
-        Item[] items = new Item[] { new Item("normal item", 1, 0)};
-        GildedRose app = new GildedRose(items);
-        app.updateQuality();
-        assertThat(app.items[0].quality).isZero();
-    }
-    @Test
-    void updateQuality_normalItem_qualityCannotBeLessThanZero_whenSellInIsZero() {
-        Item[] items = new Item[] { new Item("normal item", 0,0)};
-        GildedRose app = new GildedRose(items);
-        app.updateQuality();
-        assertThat(app.items[0].quality).isZero();
-    }
-    @Test
-    void updateQality_normalItem_qualityCannotBeLessThanZero_whenSellInIsNegative() {
-        Item[] items = new Item[] { new Item("normal item", -1, 0)};
+    @ParameterizedTest
+    @ValueSource(ints = {1, 0, -1}) // not expired, expires today, expired
+    void updateQuality_normalItem_qualityCannotBeNegative(int sellIn) {
+        Item[] items = new Item[] { new Item("normal item", sellIn, 0)};
         GildedRose app = new GildedRose(items);
         app.updateQuality();
         assertThat(app.items[0].quality).isZero();
