@@ -11,7 +11,7 @@ import java.util.stream.Stream;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 class GildedRoseTest {
-    @ParameterizedTest(name = "updateQuality_normalItem_decrementsBy1Always_startingSellIn{0}_updatedSellIn{1}")
+    @ParameterizedTest(name = "updateQuality_normalItem_decrementsBy1Always_startingSellIn_{0}_updatedSellIn_{1}")
     @MethodSource
     void updateQuality_normalItem_sellInAlwaysDecrementsBy1(int startingSellIn, int endingSellIn) {
         Item[] items = new Item[] { new Item("normal item", startingSellIn, 10)};
@@ -25,7 +25,7 @@ class GildedRoseTest {
         Arguments expired = Arguments.of(-1, -2);
         return Stream.of(notExpired, expiresToday, expired);
     }
-    @ParameterizedTest
+    @ParameterizedTest(name = "updateQuality_normalItem_qualityDegrades_sellIn_{0}_startingQuality_{1}_endingQuality_{2}")
     @MethodSource
     void updateQuality_normalItem_qualityDegrades(int sellIn, int startingQuality, int endingQuality) {
         Item[] items = new Item[] { new Item("normal item", sellIn, startingQuality)};
