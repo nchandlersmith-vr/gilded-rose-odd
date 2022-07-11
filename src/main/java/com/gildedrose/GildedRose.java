@@ -8,7 +8,10 @@ class GildedRose {
     }
 
     public void updateQuality() {
+        System.out.println("Starting update quality.");
         for (int i = 0; i < items.length; i++) {
+            System.out.printf("----- Item %d -----%n", i);
+            System.out.printf("Updating item: %s.%n", items[i].toString());
             if (!items[i].name.equals("Aged Brie")
                     && !items[i].name.equals("Backstage passes to a TAFKAL80ETC concert")) {
                 if (items[i].quality > 0) {
@@ -57,6 +60,7 @@ class GildedRose {
                     }
                 }
             }
+            System.out.printf("Resulting item: %s.%n", items[i].toString());
         }
     }
 }
