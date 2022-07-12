@@ -16,7 +16,7 @@ class GildedRose {
             System.out.printf("----- Item %d -----%n", i);
             System.out.printf("Updating item: %s.%n", items[i].toString());
             updateItem(i);
-            decrementSellIn(i);
+            decrementSellIn(items[i]);
             enforceExpirationRules(i);
             System.out.printf("Resulting item: %s.%n", items[i].toString());
         }
@@ -36,11 +36,11 @@ class GildedRose {
 
                 if (items[i].name.equals(backstagePasses)) {
                     if (items[i].sellIn < 11) {
-                        enforceQualityMaximum(i);
+                        enforceQualityMaximum(items[i]);
                     }
 
                     if (items[i].sellIn < 6) {
-                        enforceQualityMaximum(i);
+                        enforceQualityMaximum(items[i]);
                     }
                 }
             }
@@ -60,20 +60,20 @@ class GildedRose {
                     items[i].quality = items[i].quality - items[i].quality;
                 }
             } else {
-                enforceQualityMaximum(i);
+                enforceQualityMaximum(items[i]);
             }
         }
     }
 
-    private void enforceQualityMaximum(int i) {
-        if (items[i].quality < 50) {
-            items[i].quality = items[i].quality + 1;
+    private void enforceQualityMaximum(Item item) {
+        if (item.quality < 50) {
+            item.quality = item.quality + 1;
         }
     }
 
-    private void decrementSellIn(int i) {
-        if (!items[i].name.equals(sulfurus)) {
-            items[i].sellIn = items[i].sellIn - 1;
+    private void decrementSellIn(Item item) {
+        if (!item.name.equals(sulfurus)) {
+            item.sellIn = item.sellIn - 1;
         }
     }
 }
