@@ -68,12 +68,21 @@ class GildedRoseTest {
         Arguments expiredAdds2QualityPoints = Arguments.of(-1, 2 , 4);
         return Stream.of(notExpiredAdds1QualityPoint, expiresTodayAdds1QualityPoint, expiredAdds2QualityPoints);
     }
-    @ParameterizedTest(name = "sellIn = {0}")
-    @ValueSource(ints = {1, 0, -1}) // not expired, expires today, expired
-    void updateQuality_agdBrie_qualityCannotBeAbove50(int sellIn) {
-        Item[] items = new Item[] { new Item("Aged Brie", sellIn, 50)};
+    @ParameterizedTest(name = "sellIn = {0} | startingQuality = {1}")
+    @MethodSource
+    void updateQuality_agdBrie_qualityCannotBeAbove50(int sellIn, int startingQuality) {
+        Item[] items = new Item[] { new Item("Aged Brie", sellIn, startingQuality)};
         GildedRose app = new GildedRose(items);
         app.updateQuality();
         assertThat(app.items[0].quality).isEqualTo(50);
+    }
+    private static Stream<Arguments> updateQuality_agdBrie_qualityCannotBeAbove50() {
+        return Stream.of(
+                Arguments.of(1, 50),
+                Arguments.of(0, 50),
+                Arguments.of(-1, 50),
+                Arguments.of(0, 49),
+                Arguments.of(-1, 49)
+        );
     }
 }
