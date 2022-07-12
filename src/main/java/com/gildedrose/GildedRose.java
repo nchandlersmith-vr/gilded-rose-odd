@@ -3,12 +3,13 @@ package com.gildedrose;
 import com.gildedrose.evaluators.EvaluatorLookup;
 import com.gildedrose.evaluators.ItemEvaluator;
 import com.odd.Logger;
+import com.odd.OddLogger;
 
 public class GildedRose {
     Item[] items;
     EvaluatorLookup evaluatorLookup = new EvaluatorLookup();
     ItemEvaluator evaluator;
-    Logger logger = new Logger();
+    Logger logger = new OddLogger();
     public static final String SULFURUS = "Sulfuras, Hand of Ragnaros";
     public static final String AGED_BRIE = "Aged Brie";
     String backstagePasses = "Backstage passes to a TAFKAL80ETC concert";

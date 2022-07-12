@@ -2,9 +2,10 @@ package com.gildedrose.evaluators;
 
 import com.gildedrose.Item;
 import com.odd.Logger;
+import com.odd.OddLogger;
 
 public class AgedBrieEvaluator implements ItemEvaluator{
-    Logger logger = new Logger();
+    Logger logger = new OddLogger();
     @Override
     public void evaluate(Item item) {
         String logLocation = "AgedBrieEvaluator.evaluate";

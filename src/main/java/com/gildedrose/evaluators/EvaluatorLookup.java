@@ -2,9 +2,10 @@ package com.gildedrose.evaluators;
 
 import com.gildedrose.Item;
 import com.odd.Logger;
+import com.odd.OddLogger;
 
 public class EvaluatorLookup {
-    Logger logger = new Logger();
+    Logger logger = new OddLogger();
     public ItemEvaluator find(Item item) {
         String logLocation = "EvaluatorLookup.find";
         switch (item.name) {
