@@ -11,14 +11,13 @@ class GildedRose {
     }
 
     public void updateQuality() {
-        for (int i = 0; i < items.length; i++) {
+        for (Item item : items) {
             System.out.println();
-            System.out.printf("----- Item %d -----%n", i);
-            oddLog("Starting", items[i]);
-            updateItem(items[i]);
-            decrementSellIn(items[i]);
-            enforceExpirationRules(items[i]);
-            oddLog("Finished", items[i]);
+            oddLog("Starting", item);
+            updateItem(item);
+            decrementSellIn(item);
+            enforceExpirationRules(item);
+            oddLog("Finished", item);
         }
     }
 
