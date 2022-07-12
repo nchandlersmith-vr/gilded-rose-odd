@@ -14,43 +14,11 @@ class GildedRose {
         for (Item item : items) {
             System.out.println();
             oddLog("Starting", item);
-            updateItem(item);
+            updateDegradingItem(item);
+            updateImprovingItem(item);
             decrementSellIn(item);
             enforceExpirationRules(item);
             oddLog("Finished", item);
-        }
-    }
-
-    private void updateItem(Item item) {
-        if (isItemDegrading(item)) {
-            oddLog("Item degrades", item);
-            if (item.quality > 0) {
-                oddLog("quality > 0", item);
-                if (!item.name.equals(sulfurus)) {
-                    oddLog("Found normal item", item);
-                    item.quality = item.quality - 1;
-                    oddLog("quality - 1", item);
-                }
-            }
-        }
-        if (isItemImprove(item)) {
-            oddLog("Item improves", item);
-            if (item.quality < 50) {
-                oddLog("quality < 50", item);
-                item.quality = item.quality + 1;
-                oddLog("quality + 1", item);
-                if (item.name.equals(backstagePasses)) {
-                    oddLog("Found backstage pass", item);
-                    if (item.sellIn < 11) {
-                        oddLog("sellIn < 11", item);
-                        incrementQuality(item);
-                    }
-
-                    if (item.sellIn < 6) {
-                        incrementQuality(item);
-                    }
-                }
-            }
         }
     }
 
@@ -103,5 +71,41 @@ class GildedRose {
 
     private boolean isItemImprove(Item item) {
         return !item.name.equals(sulfurus) && !isItemDegrading(item);
+    }
+
+    private void updateDegradingItem(Item item) {
+        if (isItemDegrading(item)) {
+            oddLog("Item degrades", item);
+            if (item.quality > 0) {
+                oddLog("quality > 0", item);
+                if (!item.name.equals(sulfurus)) {
+                    oddLog("Found normal item", item);
+                    item.quality = item.quality - 1;
+                    oddLog("quality - 1", item);
+                }
+            }
+        }
+    }
+
+    private void updateImprovingItem(Item item) {
+        if (isItemImprove(item)) {
+            oddLog("Item improves", item);
+            if (item.quality < 50) {
+                oddLog("quality < 50", item);
+                item.quality = item.quality + 1;
+                oddLog("quality + 1", item);
+                if (item.name.equals(backstagePasses)) {
+                    oddLog("Found backstage pass", item);
+                    if (item.sellIn < 11) {
+                        oddLog("sellIn < 11", item);
+                        incrementQuality(item);
+                    }
+
+                    if (item.sellIn < 6) {
+                        incrementQuality(item);
+                    }
+                }
+            }
+        }
     }
 }
