@@ -118,19 +118,27 @@ class GildedRoseTest {
         assertThat(app.items[0].sellIn).isEqualTo(endingSellIn);
     }
     @Test
-    void updateQuality_backstagePasses_qualityAdds1() {
+    void updateQuality_backstagePasses_qualityAdds1_whenSellInGreaterThan10() {
         Item[] items = new Item[] { new Item(backStagePassesName, 11, 20)};
         GildedRose app = new GildedRose(items);
         app.updateQuality();
         assertThat(app.items[0].quality).isEqualTo(21);
     }
     @ParameterizedTest(name = "startingSellIn = {0}")
-    @ValueSource(ints = {10, 6}) // increases by 2 when [10, 6]
-    void updateQuality_backstagePasses_qualityAdds2(int sellin) {
+    @ValueSource(ints = {10, 6})
+    void updateQuality_backstagePasses_qualityAdds2_whenSellInOnClosedInterval10_6(int sellin) {
         Item[] items = new Item[] { new Item(backStagePassesName, sellin, 20)};
         GildedRose app = new GildedRose(items);
         app.updateQuality();
         assertThat(app.items[0].quality).isEqualTo(22);
+    }
+    @ParameterizedTest(name = "startingSellIn = {0}")
+    @ValueSource(ints = {5, 1})
+    void updateQuality_backstagePasses_qualityAdds3_whenSellInOnClosedInterval5_1(int sellIn) {
+        Item[] items = new Item[] { new Item(backStagePassesName, sellIn, 20)};
+        GildedRose app = new GildedRose(items);
+        app.updateQuality();
+        assertThat(app.items[0].quality).isEqualTo(23);
     }
     // TODO: drops to 0
     // TODO: cannot be above 50
