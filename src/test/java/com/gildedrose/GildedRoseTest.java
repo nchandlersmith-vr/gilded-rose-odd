@@ -14,6 +14,7 @@ class GildedRoseTest {
     String agedBrieName = "Aged Brie";
     String sulfurusName = "Sulfuras, Hand of Ragnaros";
     int sulfurusQuality = 80;
+    String backStagePassesName = "Backstage passes to a TAFKAL80ETC concert";
 
     @ParameterizedTest(name = "startingSellIn = {0} | updatedSellIn = {1}")
     @MethodSource("sellInAlwaysDecrementsBy1")
@@ -106,5 +107,15 @@ class GildedRoseTest {
         app.updateQuality();
         assertThat(app.items[0].quality).isEqualTo(sulfurusQuality);
     }
-    // TODO: backstage passes
+    @ParameterizedTest(name = "startingSellIn = {0}")
+    @ValueSource(ints = {11, 10, 9, 6, 5, 4, 1, 0, -1})
+    void updateQuality_backStagePasses_sellInAlwaysDecrements(int startingSellin) {
+        int endingSellIn = startingSellin - 1;
+        Item[] items = new Item[] { new Item(backStagePassesName, startingSellin, 10)};
+        GildedRose app = new GildedRose(items);
+        app.updateQuality();
+        assertThat(app.items[0].sellIn).isEqualTo(endingSellIn);
+    }
+    // TODO: drops to 0
+    // TODO: cannot be above 50
 }
