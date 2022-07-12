@@ -10,6 +10,8 @@ import java.util.stream.Stream;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 class GildedRoseTest {
+    String sulfurus = "Sulfuras, Hand of Ragnaros";
+
     @ParameterizedTest(name = "startingSellIn = {0} | updatedSellIn = {1}")
     @MethodSource("sellInAlwaysDecrementsBy1")
     void updateQuality_normalItem_sellInAlwaysDecrementsBy1(int startingSellIn, int endingSellIn) {
@@ -84,5 +86,13 @@ class GildedRoseTest {
                 Arguments.of(0, 49),
                 Arguments.of(-1, 49)
         );
+    }
+    @ParameterizedTest(name = "startingSellIn = {0}")
+    @ValueSource(ints = {1, 0, -1})
+    void updateQuality_sulfurus_sellInDoesNotDecrement(int startingSellIn) {
+        Item[] items = new Item[] { new Item(sulfurus, startingSellIn, 10)};
+        GildedRose app = new GildedRose(items);
+        app.updateQuality();
+        assertThat(app.items[0].sellIn).isEqualTo(startingSellIn);
     }
 }
