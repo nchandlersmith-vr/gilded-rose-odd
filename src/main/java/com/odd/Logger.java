@@ -9,6 +9,6 @@ public class Logger {
     }
 
     public void comment(String string) {
-        System.out.println("");
+        System.out.println(string);
     }
 }

@@ -90,20 +90,16 @@ class GildedRose {
     private void updateImprovingItem(Item item) {
         if (isItemImprove(item)) {
             logger.info("Item improves", item);
-            if (item.quality < 50) {
-                logger.info("quality < 50", item);
-                item.quality = item.quality + 1;
-                logger.info("quality + 1", item);
-                if (item.name.equals(backstagePasses)) {
-                    logger.info("Found backstage pass", item);
-                    if (item.sellIn < 11) {
-                        logger.info("sellIn < 11", item);
-                        incrementQuality(item);
-                    }
-
-                    if (item.sellIn < 6) {
-                        incrementQuality(item);
-                    }
+            incrementQuality(item);
+            logger.info("quality + 1", item);
+            if (item.name.equals(backstagePasses)) {
+                logger.info("Found backstage pass", item);
+                if (item.sellIn < 11) {
+                    logger.info("sellIn < 11", item);
+                    incrementQuality(item);
+                }
+                if (item.sellIn < 6) {
+                    incrementQuality(item);
                 }
             }
         }
