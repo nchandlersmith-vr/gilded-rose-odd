@@ -16,9 +16,12 @@ public class EvaluatorLookup {
             case GildedRose.BACKSTAGE_PASS:
                 logger.info(logLocation, "found Backstage Pass", item);
                 return new BackstagePassEvaluator();
-            default:
-                logger.info(logLocation, "using default", item);
+            case GildedRose.SULFURUS:
+                logger.info(logLocation, "found Sulfurus", item);
                 return new SulfurusEvaluator();
+            default:
+                logger.info(logLocation, "using normal item evaluator", item);
+                return new NormalItemEvaluator();
         }
     }
 }
