@@ -11,14 +11,14 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 class GildedRoseTest {
     @ParameterizedTest(name = "startingSellIn = {0} | updatedSellIn = {1}")
-    @MethodSource
+    @MethodSource("sellInAlwaysDecrementsBy1")
     void updateQuality_normalItem_sellInAlwaysDecrementsBy1(int startingSellIn, int endingSellIn) {
         Item[] items = new Item[] { new Item("normal item", startingSellIn, 10)};
         GildedRose app = new GildedRose(items);
         app.updateQuality();
         assertThat(app.items[0].sellIn).isEqualTo(endingSellIn);
     }
-    private static Stream<Arguments> updateQuality_normalItem_sellInAlwaysDecrementsBy1() {
+    private static Stream<Arguments> sellInAlwaysDecrementsBy1() {
         Arguments notExpired = Arguments.of(1, 0);
         Arguments expiresToday = Arguments.of(0, -1);
         Arguments expired = Arguments.of(-1, -2);
@@ -45,5 +45,13 @@ class GildedRoseTest {
         GildedRose app = new GildedRose(items);
         app.updateQuality();
         assertThat(app.items[0].quality).isZero();
+    }
+    @ParameterizedTest(name = "startingSellIn = {0} | updatedSellIn = {1}")
+    @MethodSource("sellInAlwaysDecrementsBy1")
+    void updateQuality_agedBrie_sellInAlwaysDecrementsBy1(int startingSellIn, int endingSellIn) {
+        Item[] items = new Item[] { new Item("Aged Brie", startingSellIn, 10)};
+        GildedRose app = new GildedRose(items);
+        app.updateQuality();
+        assertThat(app.items[0].sellIn).isEqualTo(endingSellIn);
     }
 }
