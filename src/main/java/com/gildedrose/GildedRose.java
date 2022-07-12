@@ -11,10 +11,6 @@ public class GildedRose {
     ItemEvaluator evaluator;
     Logger logger = new OddLogger();
 
-    public static final String SULFURUS = "Sulfuras, Hand of Ragnaros";
-    public static final String AGED_BRIE = "Aged Brie";
-    public static final String BACKSTAGE_PASS = "Backstage passes to a TAFKAL80ETC concert";
-
     public GildedRose(Item[] items) {
         this.items = items;
     }

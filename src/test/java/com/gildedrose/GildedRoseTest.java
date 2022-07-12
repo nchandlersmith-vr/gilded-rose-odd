@@ -156,4 +156,13 @@ class GildedRoseTest {
         app.updateQuality();
         assertThat(app.items[0].quality).isEqualTo(50);
     }
+    @ParameterizedTest(name = "startingSellIn = {0}")
+    @ValueSource(ints = {1, 0, -1})
+    void updateQuality_conjuredItem_decrementsSellIn(int startingSellIn) {
+        int finalSellIn = startingSellIn - 1;
+        Item[] items = new Item[] { new Item("Conjured Mana Brownie", startingSellIn, 10)};
+        GildedRose app = new GildedRose(items);
+        app.updateQuality();
+        assertThat(app.items[0].sellIn).isEqualTo(finalSellIn);
+    }
 }
