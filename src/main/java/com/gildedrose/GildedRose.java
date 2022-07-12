@@ -1,11 +1,15 @@
 package com.gildedrose;
 
+import com.gildedrose.evaluators.EvaluatorLookup;
+import com.gildedrose.evaluators.ItemEvaluator;
 import com.odd.Logger;
 
-class GildedRose {
+public class GildedRose {
     Item[] items;
+    EvaluatorLookup evaluatorLookup = new EvaluatorLookup();
+    ItemEvaluator evaluator;
     Logger logger = new Logger();
-    String sulfurus = "Sulfuras, Hand of Ragnaros";
+    public static final String SULFURUS = "Sulfuras, Hand of Ragnaros";
     String agedBrie = "Aged Brie";
     String backstagePasses = "Backstage passes to a TAFKAL80ETC concert";
 
@@ -15,6 +19,10 @@ class GildedRose {
 
     public void updateQuality() {
         for (Item item : items) {
+            if (item.name.equals(SULFURUS)) {
+                evaluator = evaluatorLookup.find(item);
+                evaluator.evaluate(item);
+            }
             logger.comment("");
             logger.prefixedInfo("Starting", item);
             updateDegradingItem(item);
@@ -34,7 +42,7 @@ class GildedRose {
                     logger.prefixedInfo("Item not backstage pass", item);
                     if (item.quality > 0) {
                         logger.prefixedInfo("quality > 0", item);
-                        if (!item.name.equals(sulfurus)) {
+                        if (!item.name.equals(SULFURUS)) {
                             logger.prefixedInfo("Item not sulfurus", item);
                             item.quality = item.quality - 1;
                         }
@@ -58,7 +66,7 @@ class GildedRose {
     }
 
     private void decrementSellIn(Item item) {
-        if (!item.name.equals(sulfurus)) {
+        if (!item.name.equals(SULFURUS)) {
             logger.prefixedInfo("Item is not sulfurus", item);
             item.sellIn = item.sellIn - 1;
             logger.prefixedInfo("sellIn - 1", item);
@@ -66,11 +74,11 @@ class GildedRose {
     }
 
     private boolean isItemDegrading(Item item) {
-        return !(item.name.equals(sulfurus) || item.name.equals(agedBrie) || item.name.equals(backstagePasses));
+        return !(item.name.equals(SULFURUS) || item.name.equals(agedBrie) || item.name.equals(backstagePasses));
     }
 
     private boolean isItemImprove(Item item) {
-        return !item.name.equals(sulfurus) && !isItemDegrading(item);
+        return !item.name.equals(SULFURUS) && !isItemDegrading(item);
     }
 
     private void updateDegradingItem(Item item) {
@@ -78,7 +86,7 @@ class GildedRose {
             logger.prefixedInfo("Item degrades", item);
             if (item.quality > 0) {
                 logger.prefixedInfo("quality > 0", item);
-                if (!item.name.equals(sulfurus)) {
+                if (!item.name.equals(SULFURUS)) {
                     logger.prefixedInfo("Found normal item", item);
                     item.quality = item.quality - 1;
                     logger.prefixedInfo("quality - 1", item);
