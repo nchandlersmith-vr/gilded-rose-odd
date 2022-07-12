@@ -2,6 +2,9 @@ package com.gildedrose;
 
 class GildedRose {
     Item[] items;
+    String sulfurus = "Sulfuras, Hand of Ragnaros";
+    String agedBrie = "Aged Brie";
+    String backstagePasses = "Backstage passes to a TAFKAL80ETC concert";
 
     public GildedRose(Item[] items) {
         this.items = items;
@@ -12,44 +15,44 @@ class GildedRose {
         for (int i = 0; i < items.length; i++) {
             System.out.printf("----- Item %d -----%n", i);
             System.out.printf("Updating item: %s.%n", items[i].toString());
-            if (!items[i].name.equals("Aged Brie")
-                    && !items[i].name.equals("Backstage passes to a TAFKAL80ETC concert")) {
-                if (items[i].quality > 0) {
-                    if (!items[i].name.equals("Sulfuras, Hand of Ragnaros")) {
-                        items[i].quality = items[i].quality - 1;
-                    }
-                }
-            } else {
-                if (items[i].quality < 50) {
-                    items[i].quality = items[i].quality + 1;
-
-                    if (items[i].name.equals("Backstage passes to a TAFKAL80ETC concert")) {
-                        if (items[i].sellIn < 11) {
-                            if (items[i].quality < 50) {
-                                items[i].quality = items[i].quality + 1;
-                            }
-                        }
-
-                        if (items[i].sellIn < 6) {
-                            if (items[i].quality < 50) {
-                                items[i].quality = items[i].quality + 1;
-                            }
-                        }
-                    }
-                }
-            }
+            updateItem(i);
             decrementSellIn(i);
-            enforceExperationRules(i);
+            enforceExpirationRules(i);
             System.out.printf("Resulting item: %s.%n", items[i].toString());
         }
     }
 
-    private void enforceExperationRules(int i) {
+    private void updateItem(int i) {
+        if (!items[i].name.equals(agedBrie)
+                && !items[i].name.equals(backstagePasses)) {
+            if (items[i].quality > 0) {
+                if (!items[i].name.equals(sulfurus)) {
+                    items[i].quality = items[i].quality - 1;
+                }
+            }
+        } else {
+            if (items[i].quality < 50) {
+                items[i].quality = items[i].quality + 1;
+
+                if (items[i].name.equals(backstagePasses)) {
+                    if (items[i].sellIn < 11) {
+                        enforceQualityMaximum(i);
+                    }
+
+                    if (items[i].sellIn < 6) {
+                        enforceQualityMaximum(i);
+                    }
+                }
+            }
+        }
+    }
+
+    private void enforceExpirationRules(int i) {
         if (items[i].sellIn < 0) {
-            if (!items[i].name.equals("Aged Brie")) {
-                if (!items[i].name.equals("Backstage passes to a TAFKAL80ETC concert")) {
+            if (!items[i].name.equals(agedBrie)) {
+                if (!items[i].name.equals(backstagePasses)) {
                     if (items[i].quality > 0) {
-                        if (!items[i].name.equals("Sulfuras, Hand of Ragnaros")) {
+                        if (!items[i].name.equals(sulfurus)) {
                             items[i].quality = items[i].quality - 1;
                         }
                     }
@@ -57,15 +60,19 @@ class GildedRose {
                     items[i].quality = items[i].quality - items[i].quality;
                 }
             } else {
-                if (items[i].quality < 50) {
-                    items[i].quality = items[i].quality + 1;
-                }
+                enforceQualityMaximum(i);
             }
         }
     }
 
+    private void enforceQualityMaximum(int i) {
+        if (items[i].quality < 50) {
+            items[i].quality = items[i].quality + 1;
+        }
+    }
+
     private void decrementSellIn(int i) {
-        if (!items[i].name.equals("Sulfuras, Hand of Ragnaros")) {
+        if (!items[i].name.equals(sulfurus)) {
             items[i].sellIn = items[i].sellIn - 1;
         }
     }
