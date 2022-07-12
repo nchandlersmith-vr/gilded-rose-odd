@@ -11,6 +11,7 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 class GildedRoseTest {
     String sulfurus = "Sulfuras, Hand of Ragnaros";
+    int sulfurusQuality = 80;
 
     @ParameterizedTest(name = "startingSellIn = {0} | updatedSellIn = {1}")
     @MethodSource("sellInAlwaysDecrementsBy1")
@@ -90,9 +91,17 @@ class GildedRoseTest {
     @ParameterizedTest(name = "startingSellIn = {0}")
     @ValueSource(ints = {1, 0, -1})
     void updateQuality_sulfurus_sellInDoesNotDecrement(int startingSellIn) {
-        Item[] items = new Item[] { new Item(sulfurus, startingSellIn, 10)};
+        Item[] items = new Item[] { new Item(sulfurus, startingSellIn, sulfurusQuality)};
         GildedRose app = new GildedRose(items);
         app.updateQuality();
         assertThat(app.items[0].sellIn).isEqualTo(startingSellIn);
+    }
+    @ParameterizedTest(name = "startingSellIn = {0}")
+    @ValueSource(ints = {1, 0, -1})
+    void updateQuality_sulfurus_qualityDoesNotChange(int startingSellIn) {
+        Item[] items = new Item[] { new Item(sulfurus, startingSellIn, sulfurusQuality)};
+        GildedRose app = new GildedRose(items);
+        app.updateQuality();
+        assertThat(app.items[0].quality).isEqualTo(sulfurusQuality);
     }
 }
