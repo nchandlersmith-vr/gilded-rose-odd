@@ -23,7 +23,7 @@ class GildedRose {
 
     private void updateItem(Item item) {
         if (isItemDegrading(item)) {
-            oddLog("Item does not degrade", item);
+            oddLog("Item degrades", item);
             if (item.quality > 0) {
                 oddLog("quality > 0", item);
                 if (!item.name.equals(sulfurus)) {
@@ -32,7 +32,9 @@ class GildedRose {
                     oddLog("quality - 1", item);
                 }
             }
-        } else {
+        }
+        if (isItemImprove(item)) {
+            oddLog("Item improves", item);
             if (item.quality < 50) {
                 oddLog("quality < 50", item);
                 item.quality = item.quality + 1;
@@ -97,5 +99,9 @@ class GildedRose {
 
     private boolean isItemDegrading(Item item) {
         return !(item.name.equals(sulfurus) || item.name.equals(agedBrie) || item.name.equals(backstagePasses));
+    }
+
+    private boolean isItemImprove(Item item) {
+        return !item.name.equals(sulfurus) && !isItemDegrading(item);
     }
 }
