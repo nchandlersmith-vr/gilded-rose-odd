@@ -54,4 +54,18 @@ class GildedRoseTest {
         app.updateQuality();
         assertThat(app.items[0].sellIn).isEqualTo(endingSellIn);
     }
+    @ParameterizedTest(name = "sellIn = {0} | startingQuality = {1} | endingQuality = {2}")
+    @MethodSource
+    void updateQuality_agedBrie_qualityImproves(int sellIn, int startingQuality, int endingQuality) {
+        Item[] items = new Item[] { new Item("Aged Brie", sellIn, startingQuality)};
+        GildedRose app = new GildedRose(items);
+        app.updateQuality();
+        assertThat(app.items[0].quality).isEqualTo(endingQuality);
+    }
+    private static Stream<Arguments> updateQuality_agedBrie_qualityImproves() {
+        Arguments notExpiredLoses1QualityPoint = Arguments.of(1, 1 , 2);
+        Arguments expiresTodayLoses1QualityPoint = Arguments.of(0, 1 , 3);
+        Arguments expiredLoses2QualityPoints = Arguments.of(-1, 2 , 4);
+        return Stream.of(notExpiredLoses1QualityPoint, expiresTodayLoses1QualityPoint, expiredLoses2QualityPoints);
+    }
 }
