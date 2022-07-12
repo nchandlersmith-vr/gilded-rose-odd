@@ -10,17 +10,17 @@ public class ItemEvaluatorFactory {
     private static final String AGED_BRIE = "Aged Brie";
     private static final String BACKSTAGE_PASS = "Backstage passes to a TAFKAL80ETC concert";
     public ItemEvaluator create(Item item) {
-        String logLocation = "EvaluatorLookup.find";
+        String logLocation = "ItemEvaluatorFactory.create";
         if (item.name.equals(AGED_BRIE)) {
-            logger.info(logLocation,"found Aged Brie", item);
+            logger.info(logLocation,"found " + AGED_BRIE, item);
             return new AgedBrieEvaluator();
         }
         if (item.name.equals(BACKSTAGE_PASS)) {
-            logger.info(logLocation, "found Backstage Pass", item);
+            logger.info(logLocation, "found " + BACKSTAGE_PASS, item);
             return new BackstagePassEvaluator();
         }
         if (item.name.equals(SULFURUS)) {
-            logger.info(logLocation, "found Sulfurus", item);
+            logger.info(logLocation, "found " + SULFURUS, item);
             return new SulfurusEvaluator();
         }
         if (item.name.toLowerCase().contains("conjured")) {
