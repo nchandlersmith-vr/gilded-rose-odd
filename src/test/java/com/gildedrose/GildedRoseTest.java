@@ -124,6 +124,14 @@ class GildedRoseTest {
         app.updateQuality();
         assertThat(app.items[0].quality).isEqualTo(21);
     }
+    @ParameterizedTest(name = "startingSellIn = {0}")
+    @ValueSource(ints = {10, 6}) // increases by 2 when [10, 6]
+    void updateQuality_backstagePasses_qualityAdds2(int sellin) {
+        Item[] items = new Item[] { new Item(backStagePassesName, sellin, 20)};
+        GildedRose app = new GildedRose(items);
+        app.updateQuality();
+        assertThat(app.items[0].quality).isEqualTo(22);
+    }
     // TODO: drops to 0
     // TODO: cannot be above 50
 }
