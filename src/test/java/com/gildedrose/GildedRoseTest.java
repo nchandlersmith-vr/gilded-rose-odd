@@ -106,4 +106,5 @@ class GildedRoseTest {
         app.updateQuality();
         assertThat(app.items[0].quality).isEqualTo(sulfurusQuality);
     }
+    // TODO: backstage passes
 }
