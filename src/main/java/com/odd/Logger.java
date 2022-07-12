@@ -4,7 +4,7 @@ import com.gildedrose.Item;
 
 public class Logger {
 
-    public void info(String prefix, Item item) {
+    public void prefixedInfo(String prefix, Item item) {
         System.out.printf("%s: name: %s, sellIn: %d, quality: %d%n", prefix, item.name, item.sellIn, item.quality);
     }
 

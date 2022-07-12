@@ -16,32 +16,32 @@ class GildedRose {
     public void updateQuality() {
         for (Item item : items) {
             logger.comment("");
-            logger.info("Starting", item);
+            logger.prefixedInfo("Starting", item);
             updateDegradingItem(item);
             updateImprovingItem(item);
             decrementSellIn(item);
             enforceExpirationRules(item);
-            logger.info("Finished", item);
+            logger.prefixedInfo("Finished", item);
         }
     }
 
     private void enforceExpirationRules(Item item) {
         if (item.sellIn < 0) {
-            logger.info("sellIn < 0", item);
+            logger.prefixedInfo("sellIn < 0", item);
             if (!item.name.equals(agedBrie)) {
-                logger.info("Item not Aged Brie", item);
+                logger.prefixedInfo("Item not Aged Brie", item);
                 if (!item.name.equals(backstagePasses)) {
-                    logger.info("Item not backstage pass", item);
+                    logger.prefixedInfo("Item not backstage pass", item);
                     if (item.quality > 0) {
-                        logger.info("quality > 0", item);
+                        logger.prefixedInfo("quality > 0", item);
                         if (!item.name.equals(sulfurus)) {
-                            logger.info("Item not sulfurus", item);
+                            logger.prefixedInfo("Item not sulfurus", item);
                             item.quality = item.quality - 1;
                         }
                     }
                 } else {
                     item.quality = 0;
-                    logger.info("quality = 0", item);
+                    logger.prefixedInfo("quality = 0", item);
                 }
             } else {
                 incrementQuality(item);
@@ -51,17 +51,17 @@ class GildedRose {
 
     private void incrementQuality(Item item) {
         if (item.quality < 50) {
-            logger.info("quality < 50", item);
+            logger.prefixedInfo("quality < 50", item);
             item.quality = item.quality + 1;
-            logger.info("quality + 1", item);
+            logger.prefixedInfo("quality + 1", item);
         }
     }
 
     private void decrementSellIn(Item item) {
         if (!item.name.equals(sulfurus)) {
-            logger.info("Item is not sulfurus", item);
+            logger.prefixedInfo("Item is not sulfurus", item);
             item.sellIn = item.sellIn - 1;
-            logger.info("sellIn - 1", item);
+            logger.prefixedInfo("sellIn - 1", item);
         }
     }
 
@@ -75,13 +75,13 @@ class GildedRose {
 
     private void updateDegradingItem(Item item) {
         if (isItemDegrading(item)) {
-            logger.info("Item degrades", item);
+            logger.prefixedInfo("Item degrades", item);
             if (item.quality > 0) {
-                logger.info("quality > 0", item);
+                logger.prefixedInfo("quality > 0", item);
                 if (!item.name.equals(sulfurus)) {
-                    logger.info("Found normal item", item);
+                    logger.prefixedInfo("Found normal item", item);
                     item.quality = item.quality - 1;
-                    logger.info("quality - 1", item);
+                    logger.prefixedInfo("quality - 1", item);
                 }
             }
         }
@@ -89,13 +89,13 @@ class GildedRose {
 
     private void updateImprovingItem(Item item) {
         if (isItemImprove(item)) {
-            logger.info("Item improves", item);
+            logger.prefixedInfo("Item improves", item);
             incrementQuality(item);
-            logger.info("quality + 1", item);
+            logger.prefixedInfo("quality + 1", item);
             if (item.name.equals(backstagePasses)) {
-                logger.info("Found backstage pass", item);
+                logger.prefixedInfo("Found backstage pass", item);
                 if (item.sellIn < 11) {
-                    logger.info("sellIn < 11", item);
+                    logger.prefixedInfo("sellIn < 11", item);
                     incrementQuality(item);
                 }
                 if (item.sellIn < 6) {
