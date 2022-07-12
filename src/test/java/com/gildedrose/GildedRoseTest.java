@@ -1,5 +1,6 @@
 package com.gildedrose;
 
+import com.sun.org.apache.xpath.internal.Arg;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -164,5 +165,21 @@ class GildedRoseTest {
         GildedRose app = new GildedRose(items);
         app.updateQuality();
         assertThat(app.items[0].sellIn).isEqualTo(finalSellIn);
+    }
+    @ParameterizedTest(name = "startingSellin = {0} | startingQuality = {1} | finalQuality = {2}")
+    @MethodSource
+    void updateQuality_conjuredItem_updatesQuality(int startingSellin, int startingQuality, int finalQuality) {
+        Item[] items = new Item[] { new Item("Conjured Mana Roll", startingSellin, startingQuality)};
+        GildedRose app = new GildedRose(items);
+        app.updateQuality();
+        assertThat(app.items[0].quality).isEqualTo(finalQuality);
+    }
+    private static Stream<Arguments> updateQuality_conjuredItem_updatesQuality() {
+        Arguments notExpiredDegrades2QualityPoints = Arguments.of(1, 10, 8);
+        Arguments expiresTodayDegrades4QualityPoints = Arguments.of(0, 10, 6);
+        Arguments expiredDegrades4QualityPoints = Arguments.of(-1, 10, 6);
+        return Stream.of(notExpiredDegrades2QualityPoints,
+                expiresTodayDegrades4QualityPoints,
+                expiredDegrades4QualityPoints);
     }
 }
