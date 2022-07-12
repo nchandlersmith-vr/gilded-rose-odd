@@ -22,8 +22,8 @@ class GildedRose {
     }
 
     private void updateItem(Item item) {
-        if (!item.name.equals(agedBrie) && !item.name.equals(backstagePasses)) {
-            oddLog("Not aged brie nor backstage pass", item);
+        if (isItemDegrading(item)) {
+            oddLog("Item does not degrade", item);
             if (item.quality > 0) {
                 oddLog("quality > 0", item);
                 if (!item.name.equals(sulfurus)) {
@@ -93,5 +93,9 @@ class GildedRose {
     }
     private void oddLog(String location, Item item) {
         System.out.printf("%s: name: %s, sellIn: %d, quality: %d%n", location, item.name, item.sellIn, item.quality);
+    }
+
+    private boolean isItemDegrading(Item item) {
+        return !(item.name.equals(sulfurus) || item.name.equals(agedBrie) || item.name.equals(backstagePasses));
     }
 }
