@@ -63,10 +63,10 @@ class GildedRoseTest {
         assertThat(app.items[0].quality).isEqualTo(endingQuality);
     }
     private static Stream<Arguments> updateQuality_agedBrie_qualityImproves() {
-        Arguments notExpiredLoses1QualityPoint = Arguments.of(1, 1 , 2);
-        Arguments expiresTodayLoses1QualityPoint = Arguments.of(0, 1 , 3);
-        Arguments expiredLoses2QualityPoints = Arguments.of(-1, 2 , 4);
-        return Stream.of(notExpiredLoses1QualityPoint, expiresTodayLoses1QualityPoint, expiredLoses2QualityPoints);
+        Arguments notExpiredAdds1QualityPoint = Arguments.of(1, 1 , 2);
+        Arguments expiresTodayAdds1QualityPoint = Arguments.of(0, 1 , 3);
+        Arguments expiredAdds2QualityPoints = Arguments.of(-1, 2 , 4);
+        return Stream.of(notExpiredAdds1QualityPoint, expiresTodayAdds1QualityPoint, expiredAdds2QualityPoints);
     }
     @ParameterizedTest(name = "sellIn = {0}")
     @ValueSource(ints = {1, 0, -1}) // not expired, expires today, expired
