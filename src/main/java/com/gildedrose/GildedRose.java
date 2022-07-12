@@ -12,7 +12,7 @@ public class GildedRose {
     Logger logger = new OddLogger();
     public static final String SULFURUS = "Sulfuras, Hand of Ragnaros";
     public static final String AGED_BRIE = "Aged Brie";
-    String backstagePasses = "Backstage passes to a TAFKAL80ETC concert";
+    public static final String BACKSTAGE_PASS = "Backstage passes to a TAFKAL80ETC concert";
 
     public GildedRose(Item[] items) {
         this.items = items;
@@ -21,7 +21,7 @@ public class GildedRose {
     public void updateQuality() {
         String logLocation = "GildedRose.updateQuality";
         for (Item item : items) {
-            if (item.name.equals(SULFURUS) || item.name.equals(AGED_BRIE)) {
+            if (item.name.equals(SULFURUS) || item.name.equals(AGED_BRIE) || item.name.equals(BACKSTAGE_PASS)) {
                 logger.comment("");
                 logger.info(logLocation, "Starting", item);
                 evaluator = evaluatorLookup.find(item);
@@ -43,7 +43,7 @@ public class GildedRose {
             logger.prefixedInfo("sellIn < 0", item);
             if (!item.name.equals(AGED_BRIE)) {
                 logger.prefixedInfo("Item not Aged Brie", item);
-                if (!item.name.equals(backstagePasses)) {
+                if (!item.name.equals(BACKSTAGE_PASS)) {
                     logger.prefixedInfo("Item not backstage pass", item);
                     if (item.quality > 0) {
                         logger.prefixedInfo("quality > 0", item);
@@ -79,7 +79,7 @@ public class GildedRose {
     }
 
     private boolean isItemDegrading(Item item) {
-        return !(item.name.equals(SULFURUS) || item.name.equals(AGED_BRIE) || item.name.equals(backstagePasses));
+        return !(item.name.equals(SULFURUS) || item.name.equals(AGED_BRIE) || item.name.equals(BACKSTAGE_PASS));
     }
 
     private boolean isItemImprove(Item item) {
@@ -105,7 +105,7 @@ public class GildedRose {
             logger.prefixedInfo("Item improves", item);
             incrementQuality(item);
             logger.prefixedInfo("quality + 1", item);
-            if (item.name.equals(backstagePasses)) {
+            if (item.name.equals(BACKSTAGE_PASS)) {
                 logger.prefixedInfo("Found backstage pass", item);
                 if (item.sellIn < 11) {
                     logger.prefixedInfo("sellIn < 11", item);

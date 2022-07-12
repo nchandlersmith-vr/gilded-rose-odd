@@ -9,10 +9,13 @@ public class EvaluatorLookup {
     Logger logger = new OddLogger();
     public ItemEvaluator find(Item item) {
         String logLocation = "EvaluatorLookup.find";
-        switch (item.name) {
+        switch (item.name) { // can I get rid of this switch-case ?
             case GildedRose.AGED_BRIE:
                 logger.info(logLocation,"found Aged Brie", item);
                 return new AgedBrieEvaluator();
+            case GildedRose.BACKSTAGE_PASS:
+                logger.info(logLocation, "found Backstage Pass", item);
+                return new BackstagePassEvaluator();
             default:
                 logger.info(logLocation, "using default", item);
                 return new SulfurusEvaluator();
