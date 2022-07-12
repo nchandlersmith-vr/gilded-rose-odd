@@ -1,5 +1,6 @@
 package com.gildedrose;
 
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -115,6 +116,13 @@ class GildedRoseTest {
         GildedRose app = new GildedRose(items);
         app.updateQuality();
         assertThat(app.items[0].sellIn).isEqualTo(endingSellIn);
+    }
+    @Test
+    void updateQuality_backstagePasses_qualityAdds1() {
+        Item[] items = new Item[] { new Item(backStagePassesName, 11, 20)};
+        GildedRose app = new GildedRose(items);
+        app.updateQuality();
+        assertThat(app.items[0].quality).isEqualTo(21);
     }
     // TODO: drops to 0
     // TODO: cannot be above 50
