@@ -15,52 +15,52 @@ class GildedRose {
         for (int i = 0; i < items.length; i++) {
             System.out.printf("----- Item %d -----%n", i);
             System.out.printf("Updating item: %s.%n", items[i].toString());
-            updateItem(i);
+            updateItem(items[i]);
             decrementSellIn(items[i]);
-            enforceExpirationRules(i);
+            enforceExpirationRules(items[i]);
             System.out.printf("Resulting item: %s.%n", items[i].toString());
         }
     }
 
-    private void updateItem(int i) {
-        if (!items[i].name.equals(agedBrie)
-                && !items[i].name.equals(backstagePasses)) {
-            if (items[i].quality > 0) {
-                if (!items[i].name.equals(sulfurus)) {
-                    items[i].quality = items[i].quality - 1;
+    private void updateItem(Item item) {
+        if (!item.name.equals(agedBrie)
+                && !item.name.equals(backstagePasses)) {
+            if (item.quality > 0) {
+                if (!item.name.equals(sulfurus)) {
+                    item.quality = item.quality - 1;
                 }
             }
         } else {
-            if (items[i].quality < 50) {
-                items[i].quality = items[i].quality + 1;
+            if (item.quality < 50) {
+                item.quality = item.quality + 1;
 
-                if (items[i].name.equals(backstagePasses)) {
-                    if (items[i].sellIn < 11) {
-                        enforceQualityMaximum(items[i]);
+                if (item.name.equals(backstagePasses)) {
+                    if (item.sellIn < 11) {
+                        enforceQualityMaximum(item);
                     }
 
-                    if (items[i].sellIn < 6) {
-                        enforceQualityMaximum(items[i]);
+                    if (item.sellIn < 6) {
+                        enforceQualityMaximum(item);
                     }
                 }
             }
         }
     }
 
-    private void enforceExpirationRules(int i) {
-        if (items[i].sellIn < 0) {
-            if (!items[i].name.equals(agedBrie)) {
-                if (!items[i].name.equals(backstagePasses)) {
-                    if (items[i].quality > 0) {
-                        if (!items[i].name.equals(sulfurus)) {
-                            items[i].quality = items[i].quality - 1;
+    private void enforceExpirationRules(Item item) {
+        if (item.sellIn < 0) {
+            if (!item.name.equals(agedBrie)) {
+                if (!item.name.equals(backstagePasses)) {
+                    if (item.quality > 0) {
+                        if (!item.name.equals(sulfurus)) {
+                            item.quality = item.quality - 1;
                         }
                     }
                 } else {
-                    items[i].quality = items[i].quality - items[i].quality;
+                    item.quality = 0;
                 }
             } else {
-                enforceQualityMaximum(items[i]);
+                enforceQualityMaximum(item);
             }
         }
     }
