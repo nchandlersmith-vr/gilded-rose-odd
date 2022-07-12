@@ -182,4 +182,26 @@ class GildedRoseTest {
                 expiresTodayDegrades4QualityPoints,
                 expiredDegrades4QualityPoints);
     }
+    @ParameterizedTest(name = "startingSellin = {0} | startingQuality = {1} | finalQuality = {2}")
+    @MethodSource
+    void updateQuality_conjuredItem_cannotBeNegative(int startingSellin, int startingQuality, int finalQuality) {
+        Item[] items = new Item[] { new Item("Conjured Mana Tart", startingSellin, startingQuality)};
+        GildedRose app = new GildedRose(items);
+        app.updateQuality();
+        assertThat(app.items[0].quality).isEqualTo(finalQuality);
+    }
+    private static Stream<Arguments> updateQuality_conjuredItem_cannotBeNegative() {
+        return Stream.of(
+                Arguments.of(1, 1, 0),
+                Arguments.of(1, 0, 0),
+                Arguments.of(0, 3, 0),
+                Arguments.of(0, 2, 0),
+                Arguments.of(0, 1, 0),
+                Arguments.of(0, 0, 0),
+                Arguments.of(-1, 3, 0),
+                Arguments.of(-1, 2, 0),
+                Arguments.of(-1, 1, 0),
+                Arguments.of(-1, 0, 0)
+        );
+    }
 }

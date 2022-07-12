@@ -16,6 +16,10 @@ public class ConjuredItemEvaluator implements ItemEvaluator {
             item.quality -= 2;
             logger.info(logLocation, "Expired degrades 2 quality points", item);
         }
+        if (item.quality < 0) {
+            item.quality = 0;
+            logger.info(logLocation, "Quality cannot be negative", item);
+        }
         logger.info(logLocation, "Finished quality update", item);
     }
 }
