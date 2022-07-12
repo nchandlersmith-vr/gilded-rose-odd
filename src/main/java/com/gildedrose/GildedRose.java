@@ -1,7 +1,10 @@
 package com.gildedrose;
 
+import com.odd.Logger;
+
 class GildedRose {
     Item[] items;
+    Logger logger = new Logger();
     String sulfurus = "Sulfuras, Hand of Ragnaros";
     String agedBrie = "Aged Brie";
     String backstagePasses = "Backstage passes to a TAFKAL80ETC concert";
@@ -12,33 +15,33 @@ class GildedRose {
 
     public void updateQuality() {
         for (Item item : items) {
-            System.out.println();
-            oddLog("Starting", item);
+            logger.comment("");
+            logger.info("Starting", item);
             updateDegradingItem(item);
             updateImprovingItem(item);
             decrementSellIn(item);
             enforceExpirationRules(item);
-            oddLog("Finished", item);
+            logger.info("Finished", item);
         }
     }
 
     private void enforceExpirationRules(Item item) {
         if (item.sellIn < 0) {
-            oddLog("sellIn < 0", item);
+            logger.info("sellIn < 0", item);
             if (!item.name.equals(agedBrie)) {
-                oddLog("Item not Aged Brie", item);
+                logger.info("Item not Aged Brie", item);
                 if (!item.name.equals(backstagePasses)) {
-                    oddLog("Item not backstage pass", item);
+                    logger.info("Item not backstage pass", item);
                     if (item.quality > 0) {
-                        oddLog("quality > 0", item);
+                        logger.info("quality > 0", item);
                         if (!item.name.equals(sulfurus)) {
-                            oddLog("Item not sulfurus", item);
+                            logger.info("Item not sulfurus", item);
                             item.quality = item.quality - 1;
                         }
                     }
                 } else {
                     item.quality = 0;
-                    oddLog("quality = 0", item);
+                    logger.info("quality = 0", item);
                 }
             } else {
                 incrementQuality(item);
@@ -48,21 +51,18 @@ class GildedRose {
 
     private void incrementQuality(Item item) {
         if (item.quality < 50) {
-            oddLog("quality < 50", item);
+            logger.info("quality < 50", item);
             item.quality = item.quality + 1;
-            oddLog("quality + 1", item);
+            logger.info("quality + 1", item);
         }
     }
 
     private void decrementSellIn(Item item) {
         if (!item.name.equals(sulfurus)) {
-            oddLog("Item is not sulfurus", item);
+            logger.info("Item is not sulfurus", item);
             item.sellIn = item.sellIn - 1;
-            oddLog("sellIn - 1", item);
+            logger.info("sellIn - 1", item);
         }
-    }
-    private void oddLog(String location, Item item) {
-        System.out.printf("%s: name: %s, sellIn: %d, quality: %d%n", location, item.name, item.sellIn, item.quality);
     }
 
     private boolean isItemDegrading(Item item) {
@@ -75,13 +75,13 @@ class GildedRose {
 
     private void updateDegradingItem(Item item) {
         if (isItemDegrading(item)) {
-            oddLog("Item degrades", item);
+            logger.info("Item degrades", item);
             if (item.quality > 0) {
-                oddLog("quality > 0", item);
+                logger.info("quality > 0", item);
                 if (!item.name.equals(sulfurus)) {
-                    oddLog("Found normal item", item);
+                    logger.info("Found normal item", item);
                     item.quality = item.quality - 1;
-                    oddLog("quality - 1", item);
+                    logger.info("quality - 1", item);
                 }
             }
         }
@@ -89,15 +89,15 @@ class GildedRose {
 
     private void updateImprovingItem(Item item) {
         if (isItemImprove(item)) {
-            oddLog("Item improves", item);
+            logger.info("Item improves", item);
             if (item.quality < 50) {
-                oddLog("quality < 50", item);
+                logger.info("quality < 50", item);
                 item.quality = item.quality + 1;
-                oddLog("quality + 1", item);
+                logger.info("quality + 1", item);
                 if (item.name.equals(backstagePasses)) {
-                    oddLog("Found backstage pass", item);
+                    logger.info("Found backstage pass", item);
                     if (item.sellIn < 11) {
-                        oddLog("sellIn < 11", item);
+                        logger.info("sellIn < 11", item);
                         incrementQuality(item);
                     }
 
