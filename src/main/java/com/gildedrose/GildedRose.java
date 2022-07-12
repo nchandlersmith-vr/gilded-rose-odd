@@ -10,7 +10,7 @@ public class GildedRose {
     ItemEvaluator evaluator;
     Logger logger = new Logger();
     public static final String SULFURUS = "Sulfuras, Hand of Ragnaros";
-    String agedBrie = "Aged Brie";
+    public static final String AGED_BRIE = "Aged Brie";
     String backstagePasses = "Backstage passes to a TAFKAL80ETC concert";
 
     public GildedRose(Item[] items) {
@@ -18,10 +18,14 @@ public class GildedRose {
     }
 
     public void updateQuality() {
+        String logLocation = "GildedRose.updateQuality";
         for (Item item : items) {
-            if (item.name.equals(SULFURUS)) {
+            if (item.name.equals(SULFURUS) || item.name.equals(AGED_BRIE)) {
+                logger.comment("");
+                logger.info(logLocation, "Starting", item);
                 evaluator = evaluatorLookup.find(item);
                 evaluator.evaluate(item);
+                return ;
             }
             logger.comment("");
             logger.prefixedInfo("Starting", item);
@@ -36,7 +40,7 @@ public class GildedRose {
     private void enforceExpirationRules(Item item) {
         if (item.sellIn < 0) {
             logger.prefixedInfo("sellIn < 0", item);
-            if (!item.name.equals(agedBrie)) {
+            if (!item.name.equals(AGED_BRIE)) {
                 logger.prefixedInfo("Item not Aged Brie", item);
                 if (!item.name.equals(backstagePasses)) {
                     logger.prefixedInfo("Item not backstage pass", item);
@@ -74,7 +78,7 @@ public class GildedRose {
     }
 
     private boolean isItemDegrading(Item item) {
-        return !(item.name.equals(SULFURUS) || item.name.equals(agedBrie) || item.name.equals(backstagePasses));
+        return !(item.name.equals(SULFURUS) || item.name.equals(AGED_BRIE) || item.name.equals(backstagePasses));
     }
 
     private boolean isItemImprove(Item item) {
