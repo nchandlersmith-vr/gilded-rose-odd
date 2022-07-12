@@ -11,36 +11,42 @@ class GildedRose {
     }
 
     public void updateQuality() {
-        System.out.println("Starting update quality.");
         for (int i = 0; i < items.length; i++) {
+            System.out.println();
             System.out.printf("----- Item %d -----%n", i);
-            System.out.printf("Updating item: %s.%n", items[i].toString());
+            oddLog("Starting", items[i]);
             updateItem(items[i]);
             decrementSellIn(items[i]);
             enforceExpirationRules(items[i]);
-            System.out.printf("Resulting item: %s.%n", items[i].toString());
+            oddLog("Finished", items[i]);
         }
     }
 
     private void updateItem(Item item) {
-        if (!item.name.equals(agedBrie)
-                && !item.name.equals(backstagePasses)) {
+        if (!item.name.equals(agedBrie) && !item.name.equals(backstagePasses)) {
+            oddLog("Not aged brie nor backstage pass", item);
             if (item.quality > 0) {
+                oddLog("quality > 0", item);
                 if (!item.name.equals(sulfurus)) {
+                    oddLog("Found normal item", item);
                     item.quality = item.quality - 1;
+                    oddLog("quality - 1", item);
                 }
             }
         } else {
             if (item.quality < 50) {
+                oddLog("quality < 50", item);
                 item.quality = item.quality + 1;
-
+                oddLog("quality + 1", item);
                 if (item.name.equals(backstagePasses)) {
+                    oddLog("Found backstage pass", item);
                     if (item.sellIn < 11) {
-                        enforceQualityMaximum(item);
+                        oddLog("sellIn < 11", item);
+                        incrementQuality(item);
                     }
 
                     if (item.sellIn < 6) {
-                        enforceQualityMaximum(item);
+                        incrementQuality(item);
                     }
                 }
             }
@@ -49,31 +55,44 @@ class GildedRose {
 
     private void enforceExpirationRules(Item item) {
         if (item.sellIn < 0) {
+            oddLog("sellIn < 0", item);
             if (!item.name.equals(agedBrie)) {
+                oddLog("Item not Aged Brie", item);
                 if (!item.name.equals(backstagePasses)) {
+                    oddLog("Item not backstage pass", item);
                     if (item.quality > 0) {
+                        oddLog("quality > 0", item);
                         if (!item.name.equals(sulfurus)) {
+                            oddLog("Item not sulfurus", item);
                             item.quality = item.quality - 1;
                         }
                     }
                 } else {
                     item.quality = 0;
+                    oddLog("quality = 0", item);
                 }
             } else {
-                enforceQualityMaximum(item);
+                incrementQuality(item);
             }
         }
     }
 
-    private void enforceQualityMaximum(Item item) {
+    private void incrementQuality(Item item) {
         if (item.quality < 50) {
+            oddLog("quality < 50", item);
             item.quality = item.quality + 1;
+            oddLog("quality + 1", item);
         }
     }
 
     private void decrementSellIn(Item item) {
         if (!item.name.equals(sulfurus)) {
+            oddLog("Item is not sulfurus", item);
             item.sellIn = item.sellIn - 1;
+            oddLog("sellIn - 1", item);
         }
+    }
+    private void oddLog(String location, Item item) {
+        System.out.printf("%s: name: %s, sellIn: %d, quality: %d%n", location, item.name, item.sellIn, item.quality);
     }
 }
